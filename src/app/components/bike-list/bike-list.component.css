@@ -1,0 +1,126 @@
+/* ---------------------------------------------------
+    BIKE-LIST
+----------------------------------------------------- */
+
+th,td {
+    max-width: 300px;
+}
+
+
+.bikeItemLink{
+    background:white;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    cursor: pointer;
+}
+
+.bikeItemLink:hover{
+    background:rgba(0,0,0,0.1);
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+@media only screen and (max-width: 568px) {
+    .justify-center{
+        justify-content: normal;
+    }
+  }
+
+  .btn-info{
+      background-color: #FF9900;
+      border-color: #FF9900;
+  }
+
+  .btn-back{
+      color: #FF9900;
+  }
+  .custom-control-input:checked ~ .custom-control-label::before
+  {
+    background-color: #FF9900;
+    border-color: #FF9900;
+  }
+
+
+/* ---------------------------------------------------
+    SIDEBAR
+----------------------------------------------------- */
+
+.sidebar{
+    border-right:solid 1px lightgray;
+    box-shadow: 3px 15px 12px rgba(0,0,0,0.1);
+    border-bottom-right-radius:30px;
+
+    position: fixed;
+    background-color: white;
+    top: 56px; 
+    z-index:99;
+    left: 0;
+    /* transition avec animation de gauche a droite  */
+    /* transition: left .1s ease-in-out; */
+}
+
+span.small-text {
+    color: gray;
+    font-size: 11px;
+    font-style: italic;
+}
+.scrollable-div {
+    max-height: 800px;
+    overflow-y: scroll;
+}
+@media only screen and (max-width: 800px) {
+    .scrollable-div {
+        max-height: 500px;
+    }
+  }
+
+
+.scrollable-div::-webkit-scrollbar-track
+{
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.scrollable-div::-webkit-scrollbar
+{
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+.scrollable-div::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    /* background-color: #FFDFB0; */
+    background-color: rgba(0,0,0,.2);
+
+}
+.no-padding {
+    padding-left: 0;
+    padding-right: 0;
+ }
+
+@media only screen and (max-width: 576px) {
+
+    .padding-sm
+    {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
+
+@media only screen and (max-width: 576px) {
+
+    
+    .columns
+    {
+        display: none;
+    }
+}
+/* transition avec animation de gauche a droite 
+.hideSidebar{
+    left: -2000px;
+    position: absolute;
+} */

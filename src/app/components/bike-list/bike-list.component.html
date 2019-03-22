@@ -1,0 +1,145 @@
+<div class="row no-gutters">
+<div class="col-md-3 sidebar py-4 px-1 scrollable-div" [class.d-none]="!sidebarDisplay">
+  <div class="d-flex justify-content-end container-fluid">
+    <button type="button" id="sidebarCollapse" class="btn btn-info float-right px-2 py-0" (click)="toggleSidebar()">
+          <span>X</span>
+    </button>
+  </div>
+  <div class="container-fluid">
+      <!-- <form method="post" #f="ngForm" (submit)="filterTable(f.value)"> -->
+        
+    <form method="post" #f="ngForm">
+      <div class="form-group ">
+        <label class="control-label " for="model">
+        Modèle
+        </label>
+        <input class="form-control" id="model" [(ngModel)]="filterModel" name="model" type="text" (ngModelChange)="filterTable()"/>
+      </div>
+      <div class="form-group ">
+        <label class="control-label " for="serialNumber">
+        N° de série
+        </label>
+        <input class="form-control" id="serialNumber" [(ngModel)]="filterSerialNumber" name="serialNumber" type="text" (ngModelChange)="filterTable()"/>
+      </div>
+      <div class="form-group ">
+        <label class="control-label " for="brand">
+        Marque
+        </label>
+        <select class="select form-control" id="brand" name="brand" [(ngModel)]="filterBrand" (ngModelChange)="filterTable()">
+          <option [value]="'-1'" selected>Toutes</option>
+          <option *ngFor="let brand of listBrands" [value]="listBrands.indexOf(brand)">{{brand}}</option>
+        </select>
+      </div>
+      <div class="form-group ">
+        <label class="control-label " for="colors">
+        Couleur(s) <span class="small-text">séparé d'une virgule</span>
+        </label>
+        <input class="form-control" id="colors" [(ngModel)]="filterColors" name="colors" type="text" (ngModelChange)="filterTable()"/>
+      </div>
+      <div class="form-group ">
+        <label class="control-label " for="accessories">
+        Accessoire(s) <span class="small-text">séparé d'une virgule</span>
+        </label>
+        <input class="form-control" id="accessories" name="accessories" type="text" [(ngModel)]="filterAccessories" (ngModelChange)="filterTable()"/>
+      </div>
+      <div class="form-group ">
+        <label class="control-label " for="weight">
+        Poid <span class="small-text">(kg)</span>
+        </label>
+        <input class="form-control" id="weight" name="weight" type="number" [(ngModel)]="filterWeight" (ngModelChange)="filterTable()"/>
+      </div>
+      <div class="form-group ">
+        <label class="control-label " for="location">
+        Lieu
+        </label>
+        <input class="form-control" id="location" name="location" type="text" [(ngModel)]="filterLocation" (ngModelChange)="filterTable()"/>
+      </div>
+      <div class="form-group ">
+        <label class="control-label " for="date">
+        Date
+        </label>
+        <input class="form-control" id="date" name="date" type="date" [(ngModel)]="filterDate" (ngModelChange)="filterTable()"/>
+      </div>
+      <div class="form-group ">
+        <label class="control-label " for="comment">
+        Commentaire(s)
+        </label>
+        <input class="form-control" id="comment" name="comment" type="text" [(ngModel)]="filterComment" (ngModelChange)="filterTable()"/>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-secondary float-left mt-4 mb-2" type="button" name="reset" (click)="resetFilters(f)">
+          Reset
+        </button>
+      </div>
+    </form>
+</div>
+
+</div>
+<div class="col-md-3 delayed-1" [class.d-none]="!sidebarDisplay"></div>
+<div class="col px-5">
+    <div class="col-sm-10 offset-sm-1 mb-4">
+      <h3 class="mb-4 text-center">                    
+        Liste des annonces
+      </h3>
+      <div class="row">
+        <div class="col-sm-10 col-xs-12">
+          <input type="text" class="form-control mb-2" placeholder="Rechercher..." aria-label="Recipient's username" #searchbar (keyup)="searchInTable(searchbar.value)" [(ngModel)]="searchValue" name="searchbar">
+        </div>
+        <div class="col-sm-2 col-xs-12 no-padding padding-sm">
+          <button type="button" id="sidebarCollapse" class="btn btn-info col col-sm-12" (click)="toggleSidebar()">
+              <span>Filtres</span>
+          </button>
+
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-10 offset-1">
+      <div class="row justify-center columns">
+
+        <div class="d-flex px-2 pt-3" *ngFor="let col of columns">
+            <div class="custom-control custom-checkbox">
+              <ng-container *ngIf="col['display']">
+                  <input type="checkbox" class="custom-control-input" id="{{ col['name'] }}" name="{{ col['name'] }}" (click)="toggleColumn(col)" checked>
+                <label class="custom-control-label" for="{{ col['name'] }}">{{ col['name'] }}</label>
+              </ng-container>
+              <ng-container *ngIf="!col['display']">
+                    <input type="checkbox" class="custom-control-input" id="{{ col['name'] }}" name="{{ col['name'] }}" (click)="toggleColumn(col)">
+                  <label class="custom-control-label" for="{{ col['name'] }}">{{ col['name'] }}</label>
+              </ng-container>
+            </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="table-responsive py-3">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col" *ngFor="let col of columns" [hidden]="!col['display']">{{ col['name'] }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let bike of localListBikes | async" class="bikeItemLink" (click)="goToBikePage(bike.id)"> -->
+          <tr *ngFor="let bike of localListBikes" class="bikeItemLink" (click)="goToBikePage(bike.id)">
+              <td *ngIf="columns[0]['display']">
+                  <img src="{{ bike.imageurl }}" class="img-fluid" alt="Image Vélo">
+              </td>
+              <td *ngIf="columns[1]['display']">{{ bike.model }}</td>
+              <td *ngIf="columns[2]['display']">{{ bike.serialNumber }}</td>
+              <td *ngIf="columns[3]['display']">{{ listBrands[bike.brand] }}</td>
+              <td *ngIf="columns[3]['display']">{{ bike.color }}</td>
+              <td *ngIf="columns[4]['display']">
+                  <span *ngFor="let accessory of bike.accessories">{{ accessory }}<br></span>
+              </td>
+              <td *ngIf="columns[5]['display']">{{ bike.weight }} kg</td>
+              <td *ngIf="columns[6]['display']">{{ bike.location }}</td>
+              <td *ngIf="columns[7]['display']">{{ bike.date | date :'d MMMM y'}} </td>
+              <td *ngIf="columns[8]['display']">{{ bike.comment }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="text-center" *ngIf="emptyResult">Il n'y a aucun résultat...</p>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="col-md-8 offset-md-2">
+
+    <!-- Retour -->
+    <a href="!#" [routerLink]="['/rechercher']" class="btn-back"><- Retour</a>
+
+    <!-- Vélo -->
+    <ng-container *ngIf="!emptyBike">
+      <form class="mt-5" #fEditBike="ngForm" (submit)="editForm(fEditBike)">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="formGroupExampleInput">Modèle</label>
+              <input type="text" class="form-control" id="formGroupExampleInput"  value="{{ bike.model }}">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">Marque</label>
+              <input type="text" class="form-control" id="formGroupExampleInput" value="{{ bike.brand }}">
+            </div>
+            <div class="form-group">
+              <label for="formGroupExampleInput">N° de série</label>
+              <input type="text" class="form-control" id="formGroupExampleInput" value="{{ bike.serialNumber }}">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-2">Image</p>
+            <img src="{{ bike.imageurl }}" class="img-fluid" alt="Image Vélo">
+
+            <div class="avatar-upload mb-2">
+                <div class="avatar-edit">
+                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"/>
+                    <label for="imageUpload" (change)="readURL(this)"></label>
+                </div>
+                <div class="avatar-preview">
+                    <div id="imagePreview" [ngStyle]="{'background-image': 'url('+bike.imageurl+')' }">
+                    </div>
+                </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="formGroupExampleInput2">Couleurs</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" value="{{ bike.color }}">
+              </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="formGroupExampleInput2">Accessoire(s)</label>
+              <span *ngFor="let accessory of bike.accessories" >
+                  <input type="text" class="form-control mb-2" id="formGroupExampleInput2" value="{{ accessory }}">
+              </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="formGroupExampleInput2">Poid</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" value="{{ bike.weight }}">
+              </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="formGroupExampleInput2">Lieu</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" value="{{ bike.location }}">
+              </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="formGroupExampleInput2">Date</label>
+                <input type="date" class="form-control" id="formGroupExampleInput2" value="{{ bike.date | date:'yyyy-MM-dd'}}">
+              </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="exampleFormControlTextarea1">Commentaire(s)</label>
+                <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" value="{{ bike.comment }}"></textarea>
+              </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 pb-5 pt-3">
+            <button class="btn btn-secondary float-left" type="button" name="back" [routerLink]="['/rechercher']">
+              Retour
+            </button>
+            <button type="submit" class="btn btn-info float-right">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+
+    <!-- Message d'erreur -->
+    <div *ngIf="emptyBike" class="text-center mt-4">
+      <h3>Aucun vélo ne correspond...</h3>
+    </div>
+
+
+  </div>
+</div>
